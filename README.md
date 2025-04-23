@@ -1,54 +1,153 @@
-# React + TypeScript + Vite
+Here's the fixed version with proper formatting and structure:
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Build Your Own React Tour Guide Component
 
-Currently, two official plugins are available:
+This project demonstrates how to build a custom, lightweight in-app tour guide component using React, TypeScript, and Tailwind CSS. It provides a flexible alternative to existing libraries like React Joyride, allowing for full customization of the user onboarding experience.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![alt text](public/guide-tour-final-demo.jpg)
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Step-by-Step Guidance:** Define a series of steps to guide users through your application's UI.
+- **Spotlight Effect:** Highlights the target UI element for each step using a customizable overlay.
+- **Dynamic Tooltip Positioning:** Tooltips automatically position themselves relative to the target element (top, bottom, left, right) and stay within the viewport.
+- **Smooth Transitions:** CSS animations provide a fluid experience when navigating between steps.
+- **Progress Indicator:** Shows users their progress through the tour.
+- **Responsive Design:** Adapts to different screen sizes.
+- **Customizable:** Easily style the components using Tailwind CSS or standard CSS.
+- **Lightweight:** Minimal dependencies compared to larger tour libraries.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Tech Stack
+
+- **React:** For building the user interface components.
+- **TypeScript:** For static typing and improved developer experience.
+- **Vite:** As the build tool and development server.
+- **Tailwind CSS:** For utility-first styling.
+- **Radix UI (`Portal`):** For reliably rendering the tour overlay and tooltip outside the main DOM hierarchy.
+- **clsx / cn:** Utility for conditionally joining class names.
+
+## Project Structure
+
+```
+/src
+|-- components
+|   |-- AppLayout.tsx       # Example layout component
+|   |-- TourGuide.tsx       # The core tour guide component
+|   `-- ui                  # UI primitives (Button, Progress - likely from shadcn/ui)
+|-- lib
+|   `-- utils.ts            # Utility functions (e.g., cn)
+|-- pages
+|   `-- index.tsx           # Example page demonstrating the TourGuide usage
+`-- main.tsx                # Application entry point
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Installation
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1. **Clone the repository:**
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+   ```bash
+   git clone https://github.com/codewithjohnson/build-your-own-tour-guide.git
+   cd build-your-own-tour-guide
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   # or
+   yarn install
+   # or
+   pnpm install
+   ```
+
+## Running the Development Server
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
 ```
+
+Open [http://localhost:5173](http://localhost:5173) (or the port specified by Vite) in your browser to see the example implementation.
+
+## Usage
+
+1. **Import `TourGuide` and `TourStep`:**
+
+   ```typescript
+   import { TourGuide, TourStep } from "@/components/TourGuide";
+   import { useState } from "react";
+   ```
+
+2. **Define your tour steps:**
+   Each step requires a `target` (CSS selector for the element to highlight), `title`, and `content`. You can optionally specify the tooltip `position`.
+
+   ```typescript
+   const tourSteps: TourStep[] = [
+     {
+       target: "#header", // CSS Selector for the target element
+       title: "Welcome!",
+       content: "This is the main header of the application.",
+       position: "bottom", // Optional: top, bottom, left, right (default: bottom)
+     },
+     {
+       target: "#sidebar-nav",
+       title: "Navigation Menu",
+       content: "Use this menu to navigate between different sections.",
+       position: "right",
+     },
+     // ... more steps
+   ];
+   ```
+
+3. **Control the tour's visibility:**
+   Use state to manage whether the tour is open or closed.
+
+   ```typescript
+   const [isTourOpen, setIsTourOpen] = useState(false);
+
+   const startTour = () => setIsTourOpen(true);
+   const closeTour = () => setIsTourOpen(false);
+   ```
+
+4. **Render the `TourGuide` component:**
+   Pass the steps array and state management functions as props.
+
+   ```tsx
+   return (
+     <div>
+       {/* Your application layout */}
+       <button onClick={startTour}>Start Tour</button>
+
+       {/* Render the TourGuide component */}
+       <TourGuide
+         steps={tourSteps}
+         isOpen={isTourOpen}
+         onClose={closeTour} // Called when the close button or overlay is clicked
+         onFinish={closeTour} // Called when the user clicks "Finish" on the last step
+       />
+     </div>
+   );
+   ```
+
+## Customization
+
+- **Styling:** Modify the Tailwind CSS classes directly within `TourGuide.tsx` or override styles using standard CSS. Adjust colors, padding, fonts, border radius, etc.
+- **Animation:** Customize the `animate-fade-in` and `animate-fade-out` classes (defined via Tailwind config or global CSS) for different transition effects.
+- **Tooltip Width:** Change the fixed `tooltipWidth` variable in `TourGuide.tsx` if needed.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit issues or pull requests.
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/your-feature-name`).
+3. Make your changes.
+4. Commit your changes (`git commit -m 'Add some feature'`).
+5. Push to the branch (`git push origin feature/your-feature-name`).
+6. Open a Pull Request.
+
+## License
+
+This project is open-source and available under the [MIT License](LICENSE). <!-- Add a LICENSE file if you want -->
