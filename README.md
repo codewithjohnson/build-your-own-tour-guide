@@ -1,5 +1,3 @@
-Here's the fixed version with proper formatting and structure:
-
 # Build Your Own React Tour Guide Component
 
 This project demonstrates how to build a custom, lightweight in-app tour guide component using React, TypeScript, and Tailwind CSS. It provides a flexible alternative to existing libraries like React Joyride, allowing for full customization of the user onboarding experience.
@@ -31,14 +29,14 @@ This project demonstrates how to build a custom, lightweight in-app tour guide c
 ```
 /src
 |-- components
-|   |-- AppLayout.tsx       # Example layout component
-|   |-- TourGuide.tsx       # The core tour guide component
-|   `-- ui                  # UI primitives (Button, Progress - likely from shadcn/ui)
+|   |-- AppLayout.tsx       
+|   |-- TourGuide.tsx       
+|   `-- ui                  
 |-- lib
-|   `-- utils.ts            # Utility functions (e.g., cn)
+|   `-- utils.ts            
 |-- pages
-|   `-- index.tsx           # Example page demonstrating the TourGuide usage
-`-- main.tsx                # Application entry point
+|   `-- index.tsx           
+`-- main.tsx                
 ```
 
 ## Installation
@@ -86,10 +84,10 @@ Open [http://localhost:5173](http://localhost:5173) (or the port specified by Vi
    ```typescript
    const tourSteps: TourStep[] = [
      {
-       target: "#header", // CSS Selector for the target element
+       target: "#header", 
        title: "Welcome!",
        content: "This is the main header of the application.",
-       position: "bottom", // Optional: top, bottom, left, right (default: bottom)
+       position: "bottom", 
      },
      {
        target: "#sidebar-nav",
@@ -97,7 +95,7 @@ Open [http://localhost:5173](http://localhost:5173) (or the port specified by Vi
        content: "Use this menu to navigate between different sections.",
        position: "right",
      },
-     // ... more steps
+     
    ];
    ```
 
@@ -117,15 +115,15 @@ Open [http://localhost:5173](http://localhost:5173) (or the port specified by Vi
    ```tsx
    return (
      <div>
-       {/* Your application layout */}
+       
        <button onClick={startTour}>Start Tour</button>
 
-       {/* Render the TourGuide component */}
+       
        <TourGuide
          steps={tourSteps}
          isOpen={isTourOpen}
-         onClose={closeTour} // Called when the close button or overlay is clicked
-         onFinish={closeTour} // Called when the user clicks "Finish" on the last step
+         onClose={closeTour} 
+         onFinish={closeTour} 
        />
      </div>
    );
@@ -150,4 +148,4 @@ Contributions are welcome! Please feel free to submit issues or pull requests.
 
 ## License
 
-This project is open-source and available under the [MIT License](LICENSE). <!-- Add a LICENSE file if you want -->
+This project is open-source and available under the [MIT License](LICENSE).
